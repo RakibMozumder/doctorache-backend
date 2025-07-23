@@ -3,24 +3,23 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const serverless = require('serverless-http');
 
+const appointmentRoutes = require('../routes/appointment.routes');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect MongoDB (use hardcoded URI or from env)
-const MONGO_URI = 'mongodb+srv://user1:oupbYmnhz5hyhcvR@cluster0.hrvzl9s.mongodb.net/doctorache?retryWrites=true&w=majority&appName=Cluster0';
-
-mongoose.connect(MONGO_URI, {
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://user1:oupbYmnhz5hyhcvR@cluster0.hrvzl9s.mongodb.net/doctorache?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+}).then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.error("❌ DB Error:", err));
 
 // Routes
-const appointmentRoutes = require('../routes/appointment.routes');
 app.use('/api/appointments', appointmentRoutes);
 
-// Export the handler for Vercel
+// Export for Vercel
 module.exports = serverless(app);
 
 
