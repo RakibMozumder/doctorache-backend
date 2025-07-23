@@ -1,28 +1,28 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+const serverless = require('serverless-http');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Connect MongoDB (use hardcoded URI or from env)
+const MONGO_URI = 'mongodb+srv://user1:oupbYmnhz5hyhcvR@cluster0.hrvzl9s.mongodb.net/doctorache?retryWrites=true&w=majority&appName=Cluster0';
+
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
+
 // Routes
-const appointmentRoutes = require('./routes/appointment.routes');
+const appointmentRoutes = require('../routes/appointment.routes');
 app.use('/api/appointments', appointmentRoutes);
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+// Export the handler for Vercel
+module.exports = serverless(app);
 
-// ✅ Export the app (IMPORTANT for Vercel)
-module.exports = app;
 
 
 // const express = require('express');
