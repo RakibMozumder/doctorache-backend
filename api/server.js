@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-const appointmentRoutes = require('./routes/appointment.routes');
+const appointmentRoutes = require('../routes/appointment.routes');
 app.use('/api/appointments', appointmentRoutes);
 
 // MongoDB connection logic
