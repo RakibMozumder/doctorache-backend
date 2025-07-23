@@ -23,7 +23,6 @@ app.use('/api/appointments', appointmentRoutes);
 module.exports = serverless(app);
 
 
-
 // const express = require('express');
 // const mongoose = require('mongoose');
 // const cors = require('cors');
